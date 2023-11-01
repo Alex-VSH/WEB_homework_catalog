@@ -1,0 +1,86 @@
+[
+  {
+    "model": "catalog.products",
+    "pk": 1,
+    "fields": {
+      "prod_name": "Картошка",
+      "prod_description": "Просто картошка",
+      "prod_preview": "",
+      "prod_category": "Овощи",
+      "prod_price": 100,
+      "prod_date_of_create": "2023-11-01T14:07:19Z",
+      "prod_date_of_last_change": "2023-11-01T14:07:20Z"
+    }
+  },
+  {
+    "model": "catalog.products",
+    "pk": 2,
+    "fields": {
+      "prod_name": "Морковь",
+      "prod_description": "Просто морковь",
+      "prod_preview": "",
+      "prod_category": "Овощи",
+      "prod_price": 200,
+      "prod_date_of_create": "2023-11-01T14:07:19Z",
+      "prod_date_of_last_change": "2023-11-01T14:07:20Z"
+    }
+  },
+  {
+    "model": "catalog.products",
+    "pk": 3,
+    "fields": {
+      "prod_name": "Сельдь",
+      "prod_description": "Просто Сельдь",
+      "prod_preview": "",
+      "prod_category": "Рыба",
+      "prod_price": 300,
+      "prod_date_of_create": "2023-11-01T14:07:19Z",
+      "prod_date_of_last_change": "2023-11-01T14:07:20Z"
+    }
+  },
+  {
+    "model": "catalog.products",
+    "pk": 4,
+    "fields": {
+      "prod_name": "Свинина",
+      "prod_description": "Просто Свинина",
+      "prod_preview": "",
+      "prod_category": "Мясо",
+      "prod_price": 500,
+      "prod_date_of_create": "2023-11-01T14:07:19Z",
+      "prod_date_of_last_change": "2023-11-01T14:07:20Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "cat_name": "Овощи",
+      "cat_description": "Просто овощи"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "cat_name": "Фрукты",
+      "cat_description": "Просто фрукты"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "cat_name": "Мясо",
+      "cat_description": "Просто мясо"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "cat_name": "Рыба",
+      "cat_description": "Просто рыба"
+    }
+  }
+]
