@@ -9,4 +9,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         Products.objects.all().delete()
         Category.objects.all().delete()
-        os.system('python -Xutf8 manage.py loaddata data.json')
+        os.system('python -Xutf8 manage.py loaddata data_fixture.json')
