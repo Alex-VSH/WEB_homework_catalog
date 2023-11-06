@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+
+{% load my_tags %}
+
+{% block content %}
+<div class="product-item px-3 py-3 text-center">
+  <img src="{{ object.prod_preview|mediapath }}" />
+  <div class="product-list">
+    <h3>{{ object.prod_name }}</h3>
+      <span class="price">{{ object.prod_price }}₽</span>
+    <h5>{{ object.prod_description }}</h5>
+    <h7><i>Категория: {{ object.prod_category }}</i></h7>
+  </div>
+</div>
+{% endblock %}
