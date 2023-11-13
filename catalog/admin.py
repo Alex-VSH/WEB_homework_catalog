@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Products, Category
+from catalog.models import Products, Category, Note
 
 # Register your models here.
 
@@ -13,3 +13,8 @@ class ProductsAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'cat_name', 'cat_description',)
+
+
+@admin.register(Note)
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'note_title', 'slug',)

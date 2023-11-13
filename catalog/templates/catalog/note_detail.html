@@ -1,0 +1,26 @@
+{% extends 'catalog/base.html' %}
+
+{% load my_tags %}
+
+{% block content %}
+<div class="product-item px-3 py-3 text-center">
+    <img src="{{ object.note_preview|mediapath }}"/>
+    <div class="product-list">
+        <h3>{{ object.note_title }} - {{ object.slug }}</h3>
+        <h5>{{ object.note_body }}</h5>
+        <h7>Добавлено: {{ object.note_date_of_create }}</h7>
+    </div>
+    <div class="px-3 py-3 text-center">
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:notes' %}">Вернуться к записям</a>
+    </div>
+</div>
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+        <div class="col-12 col-md">
+            <small class="d-block mb-3 text-muted">Количество просмотров: {{object.note_views_count }}</small>
+        </div>
+    </div>
+</footer>
+
+
+{% endblock %}

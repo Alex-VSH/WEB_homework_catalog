@@ -1,0 +1,46 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container px-3 py-3">
+    <div class="row text-center">
+        <div class="col-12">
+            <a class="p-2 btn btn-primary" href="{% url 'catalog:create' %}">Создать запись</a>
+        </div>
+        {% for object in object_list %}
+            {% if object.note_is_published %}
+                <div class="col-3 px-3 py-3">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">{{ object.note_title}}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h5><i>{{ object.note_body|slice:100 }}...</i></h5>
+                            {% if object.note_is_published %}
+                            <ul class="list-unstyled mt-3 mb-4 text-center m-3">
+                                <li>Статус: Опубликовано</li>
+                            </ul>
+                            {% else %}
+                            <ul class="list-unstyled mt-3 mb-4 text-center m-3">
+                                <li>Статус: Не опубликовано</li>
+                            </ul>
+                            {% endif %}
+                            <ul class="list-unstyled text-center ">
+                                <a class="btn btn btn-block btn-primary" href="{% url 'catalog:note_detail' object.slug %}">Подробнее</a>
+                            </ul>
+                            <ul class="list-unstyled text-center ">
+                                <a class="btn btn btn-block btn-secondary" href="{% url 'catalog:update' object.slug %}">Редактировать</a>
+                            </ul>
+                            <ul class="list-unstyled text-center ">
+                                <a class="btn btn btn-block btn-warning" href="{% url 'catalog:toggle_publishing' object.slug %}">Депубликовать</a>
+                            </ul>
+                            <ul class="list-unstyled text-center ">
+                                <a class="btn btn btn-block btn-danger" href="{% url 'catalog:delete' object.slug %}">Удалить</a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

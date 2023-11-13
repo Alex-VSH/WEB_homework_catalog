@@ -5,7 +5,4 @@ register = template.Library()
 
 @register.filter()
 def mediapath(val):
-    if val:
-        return f'/media/{val}'
-
-    return '#'
+    return f'/media/{val}'
