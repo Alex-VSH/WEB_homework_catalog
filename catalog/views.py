@@ -1,10 +1,12 @@
+from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 
-from catalog.models import Products, Note
+from catalog.models import Products, Note, ProductVersion
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from catalog.forms import ProductsForm, ProductVersionForm, NoteForm
 
 
 # Create your views here.
@@ -12,6 +14,39 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 def index_base(requests):
     return render(requests, 'catalog/base.html')
+
+
+class ProductsCreateView(CreateView):
+    model = Products
+    form_class = ProductsForm
+    success_url = reverse_lazy('catalog:home')
+
+
+class ProductsUpdateView(UpdateView):
+    model = Products
+    form_class = ProductsForm
+    success_url = reverse_lazy('catalog:home')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        ProductVersionFormset = inlineformset_factory(Products, ProductVersion, form=ProductVersionForm, extra=1)
+        if self.request.method == 'POST':
+            formset = ProductVersionFormset(self.request.POST, instance=self.object)
+        else:
+            formset = ProductVersionFormset(instance=self.object)
+
+        context_data['formset'] = formset
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
 
 
 class ProductsDetailView(DetailView):
@@ -45,10 +80,9 @@ class NoteDetailView(DetailView):
         return queryset
 
 
-
 class NoteCreateView(CreateView):
     model = Note
-    fields = ('note_title', 'note_body', 'note_preview')
+    form_class = NoteForm
     success_url = reverse_lazy('catalog:notes')
 
     def form_valid(self, form):
@@ -62,12 +96,11 @@ class NoteCreateView(CreateView):
 
 class NoteUpdateView(UpdateView):
     model = Note
-    fields = ('note_title', 'note_body', 'note_preview')
+    form_class = NoteForm
 
     def get_success_url(self):
         agent_id = self.object.slug
         return reverse_lazy('catalog:note_detail', kwargs={'slug': agent_id})
-
 
 
 class NoteDeleteView(DeleteView):
@@ -85,4 +118,3 @@ def toggle_publishing(requests, pk):
     note_item.save()
 
     return redirect(reverse('catalog:notes'))
-
