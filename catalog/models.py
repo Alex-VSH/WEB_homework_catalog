@@ -1,32 +1,13 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from psycopg2._psycopg import connection
+
+from users.models import User
 
 NULLABLE = {'blank': True, 'null': True}
 
 
 # Create your models here.
-
-
-class Products(models.Model):
-    prod_name = models.CharField(max_length=100, verbose_name='наименование')
-    prod_description = models.TextField(max_length=500, verbose_name='описание')
-    prod_preview = models.ImageField(upload_to='products/', verbose_name='превью', **NULLABLE)
-    prod_category = models.CharField(max_length=100, verbose_name='категория')
-    prod_price = models.IntegerField(verbose_name='цена за покупку')
-    prod_date_of_create = models.DateTimeField(verbose_name='дата создания')
-    prod_date_of_last_change = models.DateTimeField(verbose_name='дата последнего изменения')
-
-    def __str__(self):
-        return f'''{self.prod_name}
-{self.prod_description}'''
-
-    class Meta:
-        verbose_name = 'продукт'
-        verbose_name_plural = 'продукты'
-        ordering = ('prod_name',)
-
 
 class Category(models.Model):
     cat_name = models.CharField(max_length=100, verbose_name='наименование')
@@ -40,6 +21,31 @@ class Category(models.Model):
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
         ordering = ('cat_name',)
+
+
+
+
+class Products(models.Model):
+    prod_name = models.CharField(max_length=100, verbose_name='наименование')
+    prod_description = models.TextField(max_length=500, verbose_name='описание')
+    prod_preview = models.ImageField(upload_to='products/', verbose_name='превью', **NULLABLE)
+    prod_category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категория')
+    prod_price = models.IntegerField(verbose_name='цена за покупку')
+    prod_date_of_create = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
+    prod_date_of_last_change = models.DateTimeField(auto_now_add=True, verbose_name='дата последнего изменения')
+    prod_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='владелец', **NULLABLE)
+
+    def __str__(self):
+        return f'''{self.prod_name}
+{self.prod_description}'''
+
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
+        ordering = ('prod_name',)
+
+
+
 
 
 class Note(models.Model):

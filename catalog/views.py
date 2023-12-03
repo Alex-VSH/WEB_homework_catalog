@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
@@ -16,13 +19,18 @@ def index_base(requests):
     return render(requests, 'catalog/base.html')
 
 
-class ProductsCreateView(CreateView):
+class ProductsCreateView(LoginRequiredMixin, CreateView):
     model = Products
     form_class = ProductsForm
     success_url = reverse_lazy('catalog:home')
 
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        product.prod_owner = self.request.user
+        product.save()
+        return super().form_valid(form)
 
-class ProductsUpdateView(UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, UpdateView):
     model = Products
     form_class = ProductsForm
     success_url = reverse_lazy('catalog:home')
@@ -39,6 +47,9 @@ class ProductsUpdateView(UpdateView):
         return context_data
 
     def form_valid(self, form):
+        product = form.save(commit=False)
+        product.prod_date_of_last_change = datetime.now()
+        product.save()
         context_data = self.get_context_data()
         formset = context_data['formset']
         self.object = form.save()
@@ -49,11 +60,11 @@ class ProductsUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductsDetailView(DetailView):
+class ProductsDetailView(LoginRequiredMixin, DetailView):
     model = Products
 
 
-class ProductsListView(ListView):
+class ProductsListView(LoginRequiredMixin, ListView):
     model = Products
 
 

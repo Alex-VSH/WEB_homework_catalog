@@ -22,6 +22,8 @@ from django.conf import settings
 urlpatterns = [
                 path('admin/', admin.site.urls),
                 path('', include('catalog.urls', namespace='catalog')),
-                path('create/', include('catalog.urls', namespace='catalog'))
+                path('create/', include('catalog.urls', namespace='catalog')),
+                path('users/', include('users.urls', namespace='users')),
+                path('', include('django.contrib.auth.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
