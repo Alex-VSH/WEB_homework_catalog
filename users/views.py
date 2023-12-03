@@ -43,10 +43,6 @@ class ProfileView(UpdateView):
         return self.request.user
 
 
-class UserLogoutView(LogoutView):
-    success_url = reverse_lazy('users:login')
-
-
 def verification_view(requests, token):
     user = User.objects.filter(token=token).first()
     if user:
