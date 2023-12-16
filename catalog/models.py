@@ -34,6 +34,7 @@ class Products(models.Model):
     prod_date_of_create = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     prod_date_of_last_change = models.DateTimeField(auto_now_add=True, verbose_name='дата последнего изменения')
     prod_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='владелец', **NULLABLE)
+    prod_is_published = models.BooleanField(default=True, verbose_name='продукт опубликован')
 
     def __str__(self):
         return f'''{self.prod_name}
@@ -55,7 +56,7 @@ class Note(models.Model):
     note_preview = models.ImageField(upload_to='notes/', verbose_name='превью', **NULLABLE)
     note_date_of_create = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     note_views_count = models.IntegerField(default=0, verbose_name='просмотры')
-    note_is_published = models.BooleanField(default=True)
+    note_is_published = models.BooleanField(default=True, verbose_name='запись опубликована')
 
     def __str__(self):
         return self.note_title

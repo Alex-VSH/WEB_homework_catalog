@@ -13,30 +13,31 @@
             <a class="p-2 btn btn-success" href="{% url 'catalog:create_product' %}">Добавить продукт</a>
         </div>
         {% for object in object_list %}
-            <div class="col-3">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">{{ object.prod_name }}</h4>
-                    </div>
-                    <div class="card-body">
-                        <h5><i>{{ object.prod_description|slice:100 }}...</i></h5>
-                        <h1 class="card-title pricing-card-title">{{ object.prod_price }}Br</h1>
-                        <ul class="list-unstyled mt-3 mb-4 text-center m-3">
-                            <li>Товар в наличии</li>
-                            <h5>{% for version in object.productversion_set.all %}
-                            {% if version.version_is_active %}
-                                <p>Актуальная версия: {{ version.version_name }}<p>
-                            {% endif %}
-                        {% endfor %}</h5>
-                        </ul>
-                        <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:show_good' object.pk %}">Подробнее</a>
-                    </div>
-                    <div class="card-footer">
-                        <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}">Редактировать</a>
-
+            {% if object.prod_is_published %}
+                <div class="col-3">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">{{ object.prod_name }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h5><i>{{ object.prod_description|slice:100 }}...</i></h5>
+                            <h1 class="card-title pricing-card-title">{{ object.prod_price }}Br</h1>
+                            <ul class="list-unstyled mt-3 mb-4 text-center m-3">
+                                <li>Товар в наличии</li>
+                                <h5>{% for version in object.productversion_set.all %}
+                                {% if version.version_is_active %}
+                                    <p>Актуальная версия: {{ version.version_name }}<p>
+                                {% endif %}
+                            {% endfor %}</h5>
+                            </ul>
+                            <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:show_good' object.pk %}">Подробнее</a>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}">Редактировать</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>

@@ -7,14 +7,19 @@ class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            if field_name != 'version_is_active':
+            if field_name not in ['version_is_active', 'prod_is_published']:
                 field.widget.attrs['class'] = 'form-control'
 
 
 class ProductsForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Products
-        fields = ('prod_name', 'prod_description', 'prod_preview', 'prod_category', 'prod_price',)
+        fields = ('prod_name', 'prod_description', 'prod_preview', 'prod_category', 'prod_price', 'prod_is_published',)
+
+class ProductsModeratorForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Products
+        fields = ('prod_description', 'prod_category', 'prod_is_published',)
 
     def clean_prod_name(self):
         cleaned_data = self.cleaned_data['prod_name']
